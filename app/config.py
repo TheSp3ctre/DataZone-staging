@@ -6,7 +6,7 @@ Carrega variáveis de ambiente do arquivo .env
 import json
 from typing import List
 
-from pydantic import field_validator
+from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -22,7 +22,15 @@ class Settings(BaseSettings):
 
     # Database
     DATABASE_URL: str
-    ASYNC_DATABASE_URL: str
+    ASYNC_DATABASE_URL: str | None = None
+
+    @model_validator(mode="after")
+    def compute_async_url(self) -> "Settings":
+        if self.ASYNC_DATABASE_URL is None and self.DATABASE_URL:
+            self.ASYNC_DATABASE_URL = self.DATABASE_URL.replace(
+                "postgresql://", "postgresql+asyncpg://"
+            )
+        return self
     MAX_CONNECTIONS_POOL: int = 20
 
     # Security

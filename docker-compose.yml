@@ -1,5 +1,5 @@
 services:
-  # Banco de dados PostGIS
+  
   postgis:
     image: postgis/postgis:15-3.3-alpine
     container_name: datazone_postgis
@@ -8,16 +8,16 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-datazone_user}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-datazone_pass_dev}
       POSTGRES_HOST_AUTH_METHOD: ${POSTGRES_HOST_AUTH_METHOD:-scram-sha-256}
-      # Otimizações de performance
+      
       POSTGRES_INITDB_ARGS: "-E UTF8 --locale=pt_BR.UTF-8"
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
-      # Persistência de dados
+      
       - postgres_data:/var/lib/postgresql/data
-      # Scripts de inicialização
+      
       - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
-      # Backup (opcional)
+      
       - ./backups:/backups
     networks:
       - datazone_network
@@ -27,7 +27,7 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
-    # Otimizações de memória MÍNIMA para desenvolvimento
+    
     shm_size: 128mb
     deploy:
       resources:
