@@ -31,6 +31,7 @@ class Settings(BaseSettings):
                 "postgresql://", "postgresql+asyncpg://"
             )
         return self
+
     MAX_CONNECTIONS_POOL: int = 20
 
     # Security
