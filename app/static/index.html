@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataZone Energy - Mapa Interativo</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i data-lucide="zap" class="text-orange"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>DataZone</h1>
+                    <span>Energy Intelligence</span>
+                </div>
+            </div>
+
+            <nav class="layer-control">
+                <div class="control-header">
+                    <i data-lucide="layers"></i>
+                    <h2>Camadas do Mapa</h2>
+                </div>
+
+                <div class="layer-group">
+                    <h3>Infraestrutura ANEEL</h3>
+                    <label class="layer-item">
+                        <input type="checkbox" id="layer-subestacoes" checked>
+                        <span class="custom-checkbox"></span>
+                        <i data-lucide="map-pin" class="icon-sub"></i>
+                        Subestações
+                    </label>
+                    <label class="layer-item">
+                        <input type="checkbox" id="layer-linhas" checked>
+                        <span class="custom-checkbox"></span>
+                        <i data-lucide="line-chart" class="icon-line"></i>
+                        Linhas de Transmissão
+                    </label>
+                </div>
+
+                <div class="layer-group">
+                    <h3>Telecomunicação ANATEL</h3>
+                    <label class="layer-item">
+                        <input type="checkbox" id="layer-fibra">
+                        <span class="custom-checkbox"></span>
+                        <i data-lucide="network" class="icon-fibra"></i>
+                        Pontos de Fibra Ótica
+                    </label>
+                </div>
+
+                <div class="layer-group">
+                    <h3>Zoneamento SP</h3>
+                    <label class="layer-item">
+                        <input type="checkbox" id="layer-zoneamento">
+                        <span class="custom-checkbox"></span>
+                        <i data-lucide="layout" class="icon-zone"></i>
+                        Zoneamento Urbano
+                    </label>
+                </div>
+
+                <div class="layer-group">
+                    <h3>BDGD - Enel SP (Distribuição)</h3>
+                    <label class="layer-item">
+                        <input type="checkbox" id="layer-bdgd-sub">
+                        <span class="custom-checkbox"></span>
+                        Subestações Dist.
+                    </label>
+                    <label class="layer-item">
+                        <input type="checkbox" id="layer-bdgd-rede">
+                        <span class="custom-checkbox"></span>
+                        Rede Alta Tensão
+                    </label>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="coordinate-display" id="coord-display">
+                    <i data-lucide="crosshair"></i>
+                    <span id="coord-values">00.0000°, 00.0000°</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Map Area -->
+        <main class="map-container">
+            <div id="map"></div>
+            
+            <!-- Float Controls -->
+            <div class="float-controls">
+                <div class="search-bar glass">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Buscar subestação ou local...">
+                </div>
+            </div>
+
+            <!-- Detail Panel (Hidden by default) -->
+            <div id="detail-panel" class="detail-panel glass hide">
+                <button class="close-panel" id="close-detail">
+                    <i data-lucide="x"></i>
+                </button>
+                <div class="detail-header">
+                    <div class="detail-icon" id="panel-icon">
+                        <i data-lucide="info"></i>
+                    </div>
+                    <div class="detail-title">
+                        <h2 id="panel-name">Selecionar Item</h2>
+                        <span id="panel-type">Detalhes técnicos</span>
+                    </div>
+                </div>
+                <div class="detail-content">
+                    <div class="coordinate-box">
+                        <label>Coordenadas Exatas</label>
+                        <div class="coord-row">
+                            <span>Lat:</span> <strong id="val-lat">-</strong>
+                        </div>
+                        <div class="coord-row">
+                            <span>Lon:</span> <strong id="val-lon">-</strong>
+                        </div>
+                    </div>
+                    <div class="attribute-list" id="attribute-list">
+                        <!-- Attributes will be injected here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <script src="map.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

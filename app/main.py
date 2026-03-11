@@ -8,7 +8,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from slowapi.errors import RateLimitExceeded
 
 from app.api.v1.router import api_router
@@ -147,6 +148,18 @@ async def rate_limit_status(request: Request):
 
 # Incluir rotas da API v1
 app.include_router(api_router, prefix=settings.API_V1_PREFIX)
+
+# Montar arquivos estáticos para o dashboard do mapa
+# Verifique se o diretório app/static existe antes de rodar
+import os
+static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
+if os.path.exists(static_dir):
+    app.mount("/dashboard", StaticFiles(directory=static_dir), name="static")
+
+@app.get("/map", tags=["UI"], include_in_schema=False)
+async def map_page():
+    """Redireciona para o dashboard interativo do mapa"""
+    return RedirectResponse(url="/dashboard/index.html")
 
 
 # ============================================
