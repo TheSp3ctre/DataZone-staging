@@ -1,0 +1,16 @@
+requirements.txt
+app/**/*.py
+scripts/
+tests/
+Dockerfile
+docker-compose.yml
+railway.yml
+.env*
+data/
+docs/
+queries/
+pyproject.toml
+DATA_PROCESSING.md
+DEPLOY.md
+SECURITY.md
+# Keep only app/static/
