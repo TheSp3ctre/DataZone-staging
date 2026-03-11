@@ -152,9 +152,11 @@ app.include_router(api_router, prefix=settings.API_V1_PREFIX)
 # Montar arquivos estáticos para o dashboard do mapa
 # Verifique se o diretório app/static existe antes de rodar
 import os
+
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
 if os.path.exists(static_dir):
     app.mount("/dashboard", StaticFiles(directory=static_dir), name="static")
+
 
 @app.get("/map", tags=["UI"], include_in_schema=False)
 async def map_page():
